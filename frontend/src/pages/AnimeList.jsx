@@ -64,8 +64,36 @@ function AnimeList() {
                   anime.watchedEpisodes
                 )}
               </td>
-              <td>{anime.lastEpisode}</td>
-              <td>{anime.status}</td>
+              <td>
+                {' '}
+                {onEdit === anime.id ? (
+                  <input
+                    type="number"
+                    name="lastEpisode"
+                    value={ anime.lastEpisode }
+                    onChange={ (e) => handleChange(e, anime.id) }
+                  />
+                ) : (
+                  anime.lastEpisode
+                )}
+              </td>
+              <td>
+                {' '}
+                {onEdit === anime.id ? (
+                  <select
+                    type="number"
+                    name="status"
+                    value={ anime.status }
+                    onChange={ (e) => handleChange(e, anime.id) }
+                  >
+                    <option value="Em lançamento">Em lançamento</option>
+                    <option value="Hiato">Hiato</option>
+                    <option value="Concluído">Concluído</option>
+                  </select>
+                ) : (
+                  anime.status
+                )}
+              </td>
               <td>
                 {onEdit === anime.id ? (
                   <button type="button" onClick={ handleSave }>
