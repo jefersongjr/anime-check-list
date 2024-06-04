@@ -25,6 +25,10 @@ function AnimeList() {
         anime.id === animeId ? { ...anime, [name]: value } : anime))));
   };
 
+  const handleDelete = (animeId) => {
+    setAnimes((prevAnimes) => prevAnimes.filter((anime) => anime.id !== animeId));
+  };
+
   return (
     <section className="main-section">
       <table>
@@ -108,6 +112,7 @@ function AnimeList() {
               <td>
                 <button
                   type="button"
+                  onClick={ () => handleDelete(anime.id) }
                 >
                   Excluir
                 </button>
