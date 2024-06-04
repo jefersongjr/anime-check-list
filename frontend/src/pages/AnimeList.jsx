@@ -5,9 +5,15 @@ import '../style/AnimeList.css';
 function AnimeList() {
   const [onEdit, setOnEdit] = useState(null);
   const [animes, setAnimes] = useState(animesData);
+  const [selectedAnimes, setSelectedAnimes] = useState([]);
 
   const handleCheckboxClick = (animeId) => {
-    console.log(animeId);
+    setSelectedAnimes((prevSelectedAnimes) => {
+      if (prevSelectedAnimes.includes(animeId)) {
+        return prevSelectedAnimes.filter((id) => id !== animeId);
+      }
+      return [...prevSelectedAnimes, animeId];
+    });
   };
 
   const handleEdit = (animeId) => {
@@ -29,6 +35,24 @@ function AnimeList() {
     setAnimes((prevAnimes) => prevAnimes.filter((anime) => anime.id !== animeId));
   };
 
+  const handleMarkAsWatched = () => {
+    setAnimes((prevAnimes) => (
+      prevAnimes.map((anime) => (
+        selectedAnimes.includes(anime.id) && anime.status === 'Em lançamento'
+          ? { ...anime, status: 'Assistido' }
+          : anime
+      ))
+    ));
+    setSelectedAnimes([]);
+  };
+
+  const applyBackgroundColor = (anime) => {
+    if (anime.status === 'Assistido') {
+      return 'greenBackground';
+    }
+    return anime.status === 'Em lançamento' ? 'redBackground' : 'grayBackground';
+  };
+
   return (
     <section className="main-section">
       <table>
@@ -45,14 +69,13 @@ function AnimeList() {
           {animes && animes.map((anime) => (
             <tr
               key={ anime.id }
-              className={
-                anime.status === 'Em lançamento' ? 'redBackground' : 'grayBackground'
-              }
+              className={ applyBackgroundColor(anime) }
             >
               <td>
                 <input
                   type="checkbox"
-                  onClick={ () => handleCheckboxClick(anime.id) }
+                  checked={ selectedAnimes.includes(anime.id) }
+                  onChange={ () => handleCheckboxClick(anime.id) }
                 />
                 {anime.animeName}
               </td>
@@ -69,7 +92,6 @@ function AnimeList() {
                 )}
               </td>
               <td>
-                {' '}
                 {onEdit === anime.id ? (
                   <input
                     type="number"
@@ -82,10 +104,8 @@ function AnimeList() {
                 )}
               </td>
               <td>
-                {' '}
                 {onEdit === anime.id ? (
                   <select
-                    type="number"
                     name="status"
                     value={ anime.status }
                     onChange={ (e) => handleChange(e, anime.id) }
@@ -121,6 +141,9 @@ function AnimeList() {
           ))}
         </tbody>
       </table>
+      <button onClick={ handleMarkAsWatched }>
+        Assistidos
+      </button>
     </section>
   );
 }
