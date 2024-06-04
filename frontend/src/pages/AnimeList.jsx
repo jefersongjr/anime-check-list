@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Modal from 'react-modal';
 import animesData from '../db/animes';
 import '../style/AnimeList.css';
 
@@ -6,6 +7,7 @@ function AnimeList() {
   const [onEdit, setOnEdit] = useState(null);
   const [animes, setAnimes] = useState(animesData);
   const [selectedAnimes, setSelectedAnimes] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCheckboxClick = (animeId) => {
     setSelectedAnimes((prevSelectedAnimes) => {
@@ -35,6 +37,14 @@ function AnimeList() {
     setAnimes((prevAnimes) => prevAnimes.filter((anime) => anime.id !== animeId));
   };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const handleMarkAsWatched = () => {
     setAnimes((prevAnimes) => (
       prevAnimes.map((anime) => (
@@ -44,6 +54,7 @@ function AnimeList() {
       ))
     ));
     setSelectedAnimes([]);
+    closeModal();
   };
 
   const applyBackgroundColor = (anime) => {
@@ -141,9 +152,23 @@ function AnimeList() {
           ))}
         </tbody>
       </table>
-      <button onClick={ handleMarkAsWatched }>
+      <button onClick={ openModal }>
         Assistidos
       </button>
+      <Modal
+        isOpen={ isModalOpen }
+        onRequestClose={ closeModal }
+        contentLabel="Animes Assistidos"
+      >
+        <h2>Animes Selecionados</h2>
+        <ul>
+          {animes.filter((anime) => selectedAnimes.includes(anime.id)).map((anime) => (
+            <li key={ anime.id }>{anime.animeName}</li>
+          ))}
+        </ul>
+        <button onClick={ handleMarkAsWatched }>Marcar como Assistidos</button>
+        <button onClick={ closeModal }>Fechar</button>
+      </Modal>
     </section>
   );
 }
