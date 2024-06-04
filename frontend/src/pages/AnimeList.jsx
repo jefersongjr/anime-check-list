@@ -3,15 +3,19 @@ import animesData from '../db/animes';
 import '../style/AnimeList.css';
 
 function AnimeList() {
-  const [onEdit, setOnEdit] = useState();
+  const [onEdit, setOnEdit] = useState(null);
   const [animes, setAnimes] = useState(animesData);
 
   const handleCheckboxClick = (animeId) => {
     console.log(animeId);
   };
 
-  const handleEdit = () => {
-    setOnEdit(!onEdit);
+  const handleEdit = (animeId) => {
+    setOnEdit(animeId);
+  };
+
+  const handleSave = () => {
+    setOnEdit(null);
   };
 
   const handleChange = ({ target }, animeId) => {
@@ -27,8 +31,8 @@ function AnimeList() {
         <thead>
           <tr>
             <th>Anime</th>
-            <th>Ultimo Episódios</th>
-            <th>Espisódios Assistidos</th>
+            <th>Último Episódio</th>
+            <th>Episódios Assistidos</th>
             <th>Status</th>
             <th>Editar/Excluir</th>
           </tr>
@@ -49,25 +53,29 @@ function AnimeList() {
                 {anime.animeName}
               </td>
               <td>
-                {' '}
-                {onEdit ? <input
-                  type="number"
-                  name="watchedEpisodes"
-                  value={ anime.watchedEpisodes }
-                  onChange={ (e) => handleChange(e, anime.id) }
-                />
-                  : anime.watchedEpisodes }
+                {onEdit === anime.id ? (
+                  <input
+                    type="number"
+                    name="watchedEpisodes"
+                    value={ anime.watchedEpisodes }
+                    onChange={ (e) => handleChange(e, anime.id) }
+                  />
+                ) : (
+                  anime.watchedEpisodes
+                )}
               </td>
               <td>{anime.lastEpisode}</td>
               <td>{anime.status}</td>
               <td>
-                <button
-                  type="button"
-                  onClick={ handleEdit }
-                  onChange={ handleChange }
-                >
-                  {onEdit == anime.id? "Salvar" : "Editar"}
-                </button>
+                {onEdit === anime.id ? (
+                  <button type="button" onClick={ handleSave }>
+                    Salvar
+                  </button>
+                ) : (
+                  <button type="button" onClick={ () => handleEdit(anime.id) }>
+                    Editar
+                  </button>
+                )}
               </td>
               <td>
                 <button
