@@ -26,3 +26,51 @@
   background-repeat: no-repeat; 
   background-position: center; 
 }
+
+.footer-container {
+  display: flex;
+  margin-top: 10px;
+  flex-direction: row;
+  align-items: center;
+}
+
+.footer-container button {
+  margin-right: 10px;
+}
+
+.footer-buttons {
+  height: 50px;
+  font-size: 20px;
+  width: 150px;
+  border: none;
+}
+
+.select {
+  color: rgb(47, 220, 41);
+  font-weight: bold;
+}
+
+.reset {
+  color: rgb(181, 41, 220);
+  font-weight: bold;
+}
+
+.reset:hover {
+  background-color: rgb(170, 45, 204);
+  color: aliceblue;
+}
+
+.reset:active {
+  background-color: rgb(132, 18, 163);
+  color: aliceblue;
+}
+
+.select:hover {
+  background-color: rgb(64, 178, 60);
+  color: aliceblue;
+}
+
+.select:active {
+  background-color: rgb(76, 182, 73);
+  color: aliceblue;
+}
