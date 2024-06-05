@@ -32,4 +32,16 @@ export class AnimeService {
     await this.writeFile(animes);
     return anime;
   }
+
+  async update(id: number, updatedAnime: Anime): Promise<Anime> {
+    const animes = await this.readFile();
+    const animeIndex = animes.findIndex((anime) => anime.id == id);
+    console.log(animeIndex);
+    if (animeIndex === -1) {
+      throw new Error('Anime not found');
+    }
+    animes[animeIndex] = { ...animes[animeIndex], ...updatedAnime };
+    await this.writeFile(animes);
+    return animes[animeIndex];
+  }
 }
