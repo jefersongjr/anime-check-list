@@ -23,7 +23,7 @@
 ```
 
 # Clone este repositório
-$ git@github.com:jefersongjr/anime-check-list.git
+$ git clone git@github.com:jefersongjr/anime-check-list.git
 
 # navegue até a pasta do projeto backend
 
