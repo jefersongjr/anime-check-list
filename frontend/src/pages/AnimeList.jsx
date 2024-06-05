@@ -89,44 +89,33 @@ function AnimeList() {
   const handleStartWeek = async () => {
     try {
       const inProgressAnimes = animes.filter((anime) => anime.status === 'Em lançamento');
-      await Promise.all(
-        inProgressAnimes.map(async (anime) => {
-          await editData('/animes', anime.id, { ...anime, watchedAt: false });
-        }),
-      );
-      const { data: newData } = await getData('/animes');
-      if (JSON.stringify(newData) !== JSON.stringify(animeData)) {
-        setAnimeData(newData);
-      }
+      inProgressAnimes.forEach((anime) => {
+        setAnimes((prevAnimes) => (
+          prevAnimes.map((prevAnime) => (prevAnime.id === anime.id
+            ? { ...prevAnime, watchedAt: false } : prevAnime))));
+      });
       setIsStartWeekModalOpen(false);
     } catch (error) {
       console.error('Error starting a new week:', error);
     }
   };
 
-  const handleMarkAsWatched = async () => {
-    try {
-      await Promise.all(
-        selectedAnimes.map(async (animeId) => {
-          await editData(
-            '/animes',
-            animeId,
-            { ...animes.find((anime) => anime.id === animeId), watchedAt: true },
-          );
-        }),
-      );
-
-      const { data } = await getData('/animes');
-      setAnimeData(data);
-      setIsModalOpen(false);
-      setSelectedAnimes([]);
-    } catch (error) {
-      console.error('Error marking animes as watched:', error);
-    }
+  const handleMarkAsWatched = () => {
+    setAnimes((prevAnimes) => (
+      prevAnimes.map((anime) => (
+        selectedAnimes.includes(anime.id)
+          ? { ...anime, watchedAt: true }
+          : anime
+      ))
+    ));
+    setSelectedAnimes([]);
+    closeModal();
   };
 
   const applyBackgroundColor = (anime) => {
-    if (anime.watchedAt) {
+    if (anime.status === 'Concluído' || anime.status === 'Hiato') {
+      return 'grayBackground';
+    } if (anime.watchedAt) {
       return 'greenBackground';
     }
     return anime.status === 'Em lançamento' ? 'redBackground' : 'grayBackground';
