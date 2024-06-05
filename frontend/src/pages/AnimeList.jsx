@@ -9,6 +9,7 @@ function AnimeList() {
   const [animes, setAnimes] = useState(animesData);
   const [selectedAnimes, setSelectedAnimes] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isStartWeekModalOpen, setIsStartWeekModalOpen] = useState(false);
   const [animeData, setAnimeData] = useState([]);
 
   useEffect(() => {
@@ -76,20 +77,52 @@ function AnimeList() {
     setIsModalOpen(false);
   };
 
-  const handleMarkAsWatched = () => {
-    setAnimes((prevAnimes) => (
-      prevAnimes.map((anime) => (
-        selectedAnimes.includes(anime.id) && anime.status === 'Em lançamento'
-          ? { ...anime, status: 'Assistido' }
-          : anime
-      ))
-    ));
-    setSelectedAnimes([]);
-    closeModal();
+  const openStartWeekModal = () => {
+    setIsStartWeekModalOpen(true);
+  };
+
+  const closeStartWeekModal = () => {
+    setIsStartWeekModalOpen(false);
+  };
+
+  const handleStartWeek = async () => {
+    try {
+      // Filter animes that are in progress and update their watchedAt to false
+      const inProgressAnimes = animes.filter((anime) => anime.status === 'Em lançamento');
+      await Promise.all(
+        inProgressAnimes.map(async (anime) => {
+          await editData('/animes', anime.id, { ...anime, watchedAt: false });
+        })
+      );
+      // Fetch updated data after updating watchedAt
+      const { data } = await getData('/animes');
+      setAnimeData(data);
+      setIsStartWeekModalOpen(false);
+    } catch (error) {
+      console.error('Error starting a new week:', error);
+    }
+  };
+
+  const handleMarkAsWatched = async () => {
+    try {
+      await Promise.all(
+        selectedAnimes.map(async (animeId) => {
+          const updatedAnime = animes.find((anime) => anime.id === animeId);
+          await editData('/animes', animeId, { ...updatedAnime, watchedAt: true });
+        }),
+      );
+
+      const { data } = await getData('/animes');
+      setAnimeData(data);
+      setIsModalOpen(false);
+      setSelectedAnimes([]);
+    } catch (error) {
+      console.error('Error marking animes as watched:', error);
+    }
   };
 
   const applyBackgroundColor = (anime) => {
-    if (anime.status === 'Assistido') {
+    if (anime.watchedAt) {
       return 'greenBackground';
     }
     return anime.status === 'Em lançamento' ? 'redBackground' : 'grayBackground';
@@ -185,6 +218,9 @@ function AnimeList() {
       <button onClick={ openModal }>
         Assistidos
       </button>
+      <button onClick={ openStartWeekModal }>
+        Iniciar Nova Semana
+      </button>
       <Modal
         isOpen={ isModalOpen }
         onRequestClose={ closeModal }
@@ -198,6 +234,16 @@ function AnimeList() {
         </ul>
         <button onClick={ handleMarkAsWatched }>Marcar como Assistidos</button>
         <button onClick={ closeModal }>Fechar</button>
+      </Modal>
+
+      <Modal
+        isOpen={ isStartWeekModalOpen }
+        onRequestClose={ closeStartWeekModal }
+        contentLabel="Iniciar Nova Semana"
+      >
+        <h2>Deseja mesmo iniciar uma nova semana?</h2>
+        <button onClick={ handleStartWeek }>Sim</button>
+        <button onClick={ closeStartWeekModal }>Cancelar</button>
       </Modal>
     </section>
   );
