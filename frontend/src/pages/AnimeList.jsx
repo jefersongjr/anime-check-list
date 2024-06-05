@@ -1,13 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import animesData from '../db/animes';
 import '../style/AnimeList.css';
+import { getData, editData, deleteData } from '../utils/request';
 
 function AnimeList() {
   const [onEdit, setOnEdit] = useState(null);
   const [animes, setAnimes] = useState(animesData);
   const [selectedAnimes, setSelectedAnimes] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isStartWeekModalOpen, setIsStartWeekModalOpen] = useState(false);
+  const [animeData, setAnimeData] = useState([]);
+
+  useEffect(() => {
+    const fetchAnimeData = async () => {
+      try {
+        const { data } = await getData('/animes');
+        setAnimeData(data);
+      } catch (error) {
+        console.error('Error fetching anime data:', error);
+      }
+    };
+    fetchAnimeData();
+  }, []);
+
+  useEffect(() => {
+    setAnimes(animeData);
+  }, [animeData]);
 
   const handleCheckboxClick = (animeId) => {
     setSelectedAnimes((prevSelectedAnimes) => {
@@ -22,8 +41,16 @@ function AnimeList() {
     setOnEdit(animeId);
   };
 
-  const handleSave = () => {
-    setOnEdit(null);
+  const handleSave = async (animeId) => {
+    try {
+      const updatedAnime = animes.find((anime) => anime.id === animeId);
+      await editData('/animes', animeId, updatedAnime);
+      setOnEdit(null);
+      const { data } = await getData('/animes');
+      setAnimeData(data);
+    } catch (error) {
+      console.error('Error saving anime data:', error);
+    }
   };
 
   const handleChange = ({ target }, animeId) => {
@@ -33,8 +60,13 @@ function AnimeList() {
         anime.id === animeId ? { ...anime, [name]: value } : anime))));
   };
 
-  const handleDelete = (animeId) => {
-    setAnimes((prevAnimes) => prevAnimes.filter((anime) => anime.id !== animeId));
+  const handleDelete = async (animeId) => {
+    try {
+      await deleteData('/animes', animeId);
+      setAnimes((prevAnimes) => prevAnimes.filter((anime) => anime.id !== animeId));
+    } catch (error) {
+      console.error('Error deleting anime:', error);
+    }
   };
 
   const openModal = () => {
@@ -45,25 +77,56 @@ function AnimeList() {
     setIsModalOpen(false);
   };
 
-  const handleMarkAsWatched = () => {
-    setAnimes((prevAnimes) => (
-      prevAnimes.map((anime) => (
-        selectedAnimes.includes(anime.id) && anime.status === 'Em lançamento'
-          ? { ...anime, status: 'Assistido' }
-          : anime
-      ))
-    ));
-    setSelectedAnimes([]);
-    closeModal();
+  const openStartWeekModal = () => {
+    setIsStartWeekModalOpen(true);
+  };
+
+  const closeStartWeekModal = () => {
+    setIsStartWeekModalOpen(false);
+  };
+
+  const handleStartWeek = async () => {
+    try {
+      // Filter animes that are in progress and update their watchedAt to false
+      const inProgressAnimes = animes.filter((anime) => anime.status === 'Em lançamento');
+      await Promise.all(
+        inProgressAnimes.map(async (anime) => {
+          await editData('/animes', anime.id, { ...anime, watchedAt: false });
+        })
+      );
+      // Fetch updated data after updating watchedAt
+      const { data } = await getData('/animes');
+      setAnimeData(data);
+      setIsStartWeekModalOpen(false);
+    } catch (error) {
+      console.error('Error starting a new week:', error);
+    }
+  };
+
+  const handleMarkAsWatched = async () => {
+    try {
+      await Promise.all(
+        selectedAnimes.map(async (animeId) => {
+          const updatedAnime = animes.find((anime) => anime.id === animeId);
+          await editData('/animes', animeId, { ...updatedAnime, watchedAt: true });
+        }),
+      );
+
+      const { data } = await getData('/animes');
+      setAnimeData(data);
+      setIsModalOpen(false);
+      setSelectedAnimes([]);
+    } catch (error) {
+      console.error('Error marking animes as watched:', error);
+    }
   };
 
   const applyBackgroundColor = (anime) => {
-    if (anime.status === 'Assistido') {
+    if (anime.watchedAt) {
       return 'greenBackground';
     }
     return anime.status === 'Em lançamento' ? 'redBackground' : 'grayBackground';
   };
-
   return (
     <section className="main-section">
       <table>
@@ -88,7 +151,7 @@ function AnimeList() {
                   checked={ selectedAnimes.includes(anime.id) }
                   onChange={ () => handleCheckboxClick(anime.id) }
                 />
-                {anime.animeName}
+                {anime.name}
               </td>
               <td>
                 {onEdit === anime.id ? (
@@ -131,7 +194,7 @@ function AnimeList() {
               </td>
               <td>
                 {onEdit === anime.id ? (
-                  <button type="button" onClick={ handleSave }>
+                  <button type="button" onClick={ () => handleSave(anime.id) }>
                     Salvar
                   </button>
                 ) : (
@@ -155,6 +218,9 @@ function AnimeList() {
       <button onClick={ openModal }>
         Assistidos
       </button>
+      <button onClick={ openStartWeekModal }>
+        Iniciar Nova Semana
+      </button>
       <Modal
         isOpen={ isModalOpen }
         onRequestClose={ closeModal }
@@ -163,11 +229,21 @@ function AnimeList() {
         <h2>Animes Selecionados</h2>
         <ul>
           {animes.filter((anime) => selectedAnimes.includes(anime.id)).map((anime) => (
-            <li key={ anime.id }>{anime.animeName}</li>
+            <li key={ anime.id }>{anime.name}</li>
           ))}
         </ul>
         <button onClick={ handleMarkAsWatched }>Marcar como Assistidos</button>
         <button onClick={ closeModal }>Fechar</button>
+      </Modal>
+
+      <Modal
+        isOpen={ isStartWeekModalOpen }
+        onRequestClose={ closeStartWeekModal }
+        contentLabel="Iniciar Nova Semana"
+      >
+        <h2>Deseja mesmo iniciar uma nova semana?</h2>
+        <button onClick={ handleStartWeek }>Sim</button>
+        <button onClick={ closeStartWeekModal }>Cancelar</button>
       </Modal>
     </section>
   );
