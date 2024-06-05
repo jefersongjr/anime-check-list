@@ -9,19 +9,23 @@ function AnimeList() {
   const [animes, setAnimes] = useState(animesData);
   const [selectedAnimes, setSelectedAnimes] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data, setData] = useState([]);
+  const [animeData, setAnimeData] = useState([]);
 
   useEffect(() => {
     const fetchAnimeData = async () => {
       try {
-        const responseData = await getData('/animes');
-        setData(responseData);
+        const { data } = await getData('/animes');
+        setAnimeData(data);
       } catch (error) {
         console.error('Error fetching anime data:', error);
       }
     };
     fetchAnimeData();
   }, []);
+
+  useEffect(() => {
+    setAnimes(animeData);
+  }, [animeData]);
 
   const handleCheckboxClick = (animeId) => {
     setSelectedAnimes((prevSelectedAnimes) => {
@@ -68,7 +72,6 @@ function AnimeList() {
       ))
     ));
     setSelectedAnimes([]);
-    console.log(data);
     closeModal();
   };
 
@@ -78,7 +81,6 @@ function AnimeList() {
     }
     return anime.status === 'Em lançamento' ? 'redBackground' : 'grayBackground';
   };
-
   return (
     <section className="main-section">
       <table>
@@ -103,7 +105,7 @@ function AnimeList() {
                   checked={ selectedAnimes.includes(anime.id) }
                   onChange={ () => handleCheckboxClick(anime.id) }
                 />
-                {anime.animeName}
+                {anime.name}
               </td>
               <td>
                 {onEdit === anime.id ? (
@@ -178,7 +180,7 @@ function AnimeList() {
         <h2>Animes Selecionados</h2>
         <ul>
           {animes.filter((anime) => selectedAnimes.includes(anime.id)).map((anime) => (
-            <li key={ anime.id }>{anime.animeName}</li>
+            <li key={ anime.id }>{anime.name}</li>
           ))}
         </ul>
         <button onClick={ handleMarkAsWatched }>Marcar como Assistidos</button>
