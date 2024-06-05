@@ -1,0 +1,63 @@
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    padding: 20px;
+    justify-content: center;
+    background: #fff;
+    border-radius: 8px;
+    outline: none;
+  }
+  
+  .modal h2 {
+    margin-top: 0;
+  }
+  
+  .button-green {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: rgb(64, 178, 60);
+    color: aliceblue;
+    border: none;
+    font-size: 20px;
+    border-radius: 4px;
+  }
+  
+  .button-purple {
+    padding: 10px 20px;
+    background-color: rgb(181, 41, 220);
+    margin-top: 10px;
+    font-weight: bold;
+    color: aliceblue;
+    border: none;
+    font-size: 20px;
+    border-radius: 4px;
+  }
+  
+  .button-purple:hover {
+    background-color: rgb(221, 165, 237);
+    color: rgb(195, 61, 199);
+  }
+  
+  .button-purple:active {
+    background-color: rgb(132, 18, 163);
+    color: aliceblue;
+  }
+  
+  .button-green:hover {
+    background-color: rgb(191, 245, 189);
+    color: rgb(93, 214, 91);
+  }
+  
+  .button-green:active {
+    background-color: rgb(76, 182, 73);
+    color: aliceblue;
+  }

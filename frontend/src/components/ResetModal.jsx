@@ -1,5 +1,6 @@
 import Modal from 'react-modal';
 import PropTypes from 'prop-types';
+import '../style/Modal.css';
 
 function ResetModal({
   isStartWeekModalOpen,
