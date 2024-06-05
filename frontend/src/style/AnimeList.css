@@ -3,11 +3,11 @@
   margin: 0;
 }
 .grayBackground {
-  background-color: gray;
+  background-color: rgb(210, 210, 210);
 }
 
 .redBackground {
-  background-color: red;
+  background-color: rgb(200, 118, 216);
 }
 
 .greenBackground {
@@ -17,9 +17,12 @@
 .main-section {
   width: 100%;
   height: 100vh; 
-  background-color: rgb(203, 207, 207);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(180deg, rgba(224, 219, 219, 0.6) 90%, rgba(224, 219, 219, 0.6)90.54%), url('../assets/fundo.jpg');
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  background-position: center; 
 }

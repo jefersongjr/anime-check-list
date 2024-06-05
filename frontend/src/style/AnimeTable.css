@@ -1,0 +1,70 @@
+.tableContainer {
+  height: 600px;
+  background-image: ();
+  width: 70%;
+  overflow-y: auto;
+  background-color: rgb(245, 248, 248);
+}
+
+table {
+  width: 100%; 
+  border-collapse: collapse; 
+  margin-top: 20px;
+  font-size: 25px;
+  border: none;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+.checkbox {
+  margin-right: 10px;
+}
+
+.edit-button, .delete-button {
+  width: 80px;
+  height: 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 20px;
+}
+
+.edit-button {
+  margin-right: 10px;
+  color: rgb(88, 194, 85);
+}
+
+.edit-button:hover {
+  background-color: rgb(88, 194, 85);
+  color: aliceblue;
+}
+
+.edit-button:active {
+  background-color: rgb(79, 158, 76);
+}
+
+.delete-button {
+  color: rgb(194, 98, 85);
+}
+
+.delete-button:hover {
+  background-color: rgb(194, 98, 85);
+  color: aliceblue;
+
+}
+.delete-button:active {
+  background-color: rgb(152, 75, 65);
+
+}
+
+select, input {
+  height: 30px;
+  font-size: 20px;
+}
+
+input {
+  width: 50px;
+}
+
