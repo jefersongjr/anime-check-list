@@ -1,11 +1,13 @@
 import React from 'react';
 import Modal from 'react-modal';
 import PropTypes from 'prop-types';
+import '../style/Modal.css';
 
 function SelectModal({ animes,
   isModalOpen, closeModal, handleMarkAsWatched, selectedAnimes }) {
   return (
     <Modal
+      className="modal"
       isOpen={ isModalOpen }
       onRequestClose={ closeModal }
       contentLabel="Animes Assistidos"
@@ -16,8 +18,18 @@ function SelectModal({ animes,
           <li key={ anime.id }>{anime.name}</li>
         ))}
       </ul>
-      <button onClick={ handleMarkAsWatched }>Marcar como Assistidos</button>
-      <button onClick={ closeModal }>Fechar</button>
+      <button
+        className="button-green"
+        onClick={ handleMarkAsWatched }
+      >
+        Marcar como Assistidos
+      </button>
+      <button
+        className="button-purple"
+        onClick={ closeModal }
+      >
+        Fechar
+      </button>
     </Modal>
   );
 }
