@@ -94,9 +94,10 @@ function AnimeList() {
           await editData('/animes', anime.id, { ...anime, watchedAt: false });
         }),
       );
-
-      const { data } = await getData('/animes');
-      setAnimeData(data);
+      const { data: newData } = await getData('/animes');
+      if (JSON.stringify(newData) !== JSON.stringify(animeData)) {
+        setAnimeData(newData);
+      }
       setIsStartWeekModalOpen(false);
     } catch (error) {
       console.error('Error starting a new week:', error);
