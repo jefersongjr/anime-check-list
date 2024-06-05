@@ -16,3 +16,12 @@ export const getData = async (url) => {
     throw error;
   }
 };
+
+export const editData = async (apiUrl, id, content) => {
+  try {
+    const response = await api.put(`${apiUrl}/${id}`, content);
+    return response;
+  } catch (error) {
+    console.error('Erro ao editar Anime:', error.message);
+  }
+};
