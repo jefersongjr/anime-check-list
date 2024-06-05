@@ -1,17 +1,103 @@
 [
   {
-    "id": 1,
-    "name": "Naruto",
-    "lastEpisode": 220,
-    "watchedEpisodes": 220,
+    "id": 7,
+    "name": "Tokyo Revengers",
+    "lastEpisode": 24,
+    "watchedEpisodes": 24,
     "status": "Em lançamento",
-    "watchedAt": true
+    "watchedAt": false
   },
   {
-    "id": 2,
-    "name": "Bleach",
-    "lastEpisode": 320,
-    "watchedEpisodes": 300,
+    "id": 8,
+    "name": "Jujutsu Kaisen",
+    "lastEpisode": 24,
+    "watchedEpisodes": 24,
+    "status": "Em lançamento",
+    "watchedAt": false
+  },
+  {
+    "id": 9,
+    "name": "Dragon Ball Super",
+    "lastEpisode": 131,
+    "watchedEpisodes": 131,
+    "status": "Em lançamento",
+    "watchedAt": false
+  },
+  {
+    "id": 10,
+    "name": "Black Clover",
+    "lastEpisode": 170,
+    "watchedEpisodes": 170,
+    "status": "Em lançamento"
+  },
+  {
+    "id": 11,
+    "name": "Death Note",
+    "lastEpisode": 37,
+    "watchedEpisodes": 37,
+    "status": "Em lançamento"
+  },
+  {
+    "id": 12,
+    "name": "Fullmetal Alchemist: Brotherhood",
+    "lastEpisode": 64,
+    "watchedEpisodes": 64,
+    "status": "Em lançamento"
+  },
+  {
+    "id": 13,
+    "name": "Steins;Gate",
+    "lastEpisode": 24,
+    "watchedEpisodes": 24,
     "status": "Concluído"
+  },
+  {
+    "id": 14,
+    "name": "Hunter x Hunter",
+    "lastEpisode": 148,
+    "watchedEpisodes": 148,
+    "status": "Concluído"
+  },
+  {
+    "id": 15,
+    "name": "Cowboy Bebop",
+    "lastEpisode": 26,
+    "watchedEpisodes": 26,
+    "status": "Concluído"
+  },
+  {
+    "id": 16,
+    "name": "Re:Zero",
+    "lastEpisode": 50,
+    "watchedEpisodes": 50,
+    "status": "Hiato"
+  },
+  {
+    "id": 17,
+    "name": "Sword Art Online",
+    "lastEpisode": 96,
+    "watchedEpisodes": 96,
+    "status": "Hiato"
+  },
+  {
+    "id": 18,
+    "name": "Fairy Tail",
+    "lastEpisode": 328,
+    "watchedEpisodes": 328,
+    "status": "Hiato"
+  },
+  {
+    "id": 19,
+    "name": "Code Geass",
+    "lastEpisode": 50,
+    "watchedEpisodes": 50,
+    "status": "Hiato"
+  },
+  {
+    "id": 20,
+    "name": "One Punch Man",
+    "lastEpisode": 24,
+    "watchedEpisodes": 24,
+    "status": "Hiato"
   }
 ]
