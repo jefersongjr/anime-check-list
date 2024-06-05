@@ -134,12 +134,21 @@ function AnimeList() {
         onEdit={ onEdit }
         handleChange={ handleChange }
       />
-      <button onClick={ openModal }>
-        Assistidos
-      </button>
-      <button onClick={ openStartWeekModal }>
-        Iniciar Nova Semana
-      </button>
+      <div className="footer-container">
+        <button
+          className="footer-buttons select"
+          onClick={ openModal }
+        >
+          Assistidos
+        </button>
+        <button
+          className="footer-buttons reset"
+          onClick={ openStartWeekModal }
+        >
+          Iniciar Nova Semana
+        </button>
+      </div>
+
       <ResetModal
         isStartWeekModalOpen={ isStartWeekModalOpen }
         closeStartWeekModal={ closeStartWeekModal }
