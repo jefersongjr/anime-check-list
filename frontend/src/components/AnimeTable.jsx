@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 function AnimeTable({
   selectedAnimes,
   handleCheckboxClick,
@@ -98,5 +100,23 @@ function AnimeTable({
     </table>
   );
 }
+
+AnimeTable.propTypes = {
+  selectedAnimes: PropTypes.arrayOf(PropTypes.number).isRequired,
+  handleCheckboxClick: PropTypes.func.isRequired,
+  handleSave: PropTypes.func.isRequired,
+  handleEdit: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  applyBackgroundColor: PropTypes.func.isRequired,
+  animes: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    watchedEpisodes: PropTypes.number.isRequired,
+    lastEpisode: PropTypes.number.isRequired,
+    status: PropTypes.string.isRequired,
+  })).isRequired,
+  onEdit: PropTypes.number.isRequired,
+  handleChange: PropTypes.func.isRequired,
+};
 
 export default AnimeTable;

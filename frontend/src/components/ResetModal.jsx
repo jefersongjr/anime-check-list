@@ -1,4 +1,5 @@
 import Modal from 'react-modal';
+import PropTypes from 'prop-types';
 
 function ResetModal({
   isStartWeekModalOpen,
@@ -17,5 +18,11 @@ function ResetModal({
     </Modal>
   );
 }
+
+ResetModal.propTypes = {
+  isStartWeekModalOpen: PropTypes.bool.isRequired,
+  closeStartWeekModal: PropTypes.func.isRequired,
+  handleStartWeek: PropTypes.func.isRequired,
+};
 
 export default ResetModal;

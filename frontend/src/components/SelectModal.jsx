@@ -1,7 +1,9 @@
 import React from 'react';
 import Modal from 'react-modal';
+import PropTypes from 'prop-types';
 
-function SelectModal({ animes, isModalOpen, closeModal, handleMarkAsWatched, selectedAnimes }) {
+function SelectModal({ animes,
+  isModalOpen, closeModal, handleMarkAsWatched, selectedAnimes }) {
   return (
     <Modal
       isOpen={ isModalOpen }
@@ -19,5 +21,19 @@ function SelectModal({ animes, isModalOpen, closeModal, handleMarkAsWatched, sel
     </Modal>
   );
 }
+
+SelectModal.propTypes = {
+  animes: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+  isModalOpen: PropTypes.bool.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  handleMarkAsWatched: PropTypes.func.isRequired,
+  selectedAnimes: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+};
 
 export default SelectModal;
