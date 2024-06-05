@@ -4,7 +4,8 @@
     "name": "Naruto",
     "lastEpisode": 220,
     "watchedEpisodes": 220,
-    "status": "Concluído"
+    "status": "Em lançamento",
+    "watchedAt": true
   },
   {
     "id": 2,
