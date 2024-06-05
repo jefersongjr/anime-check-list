@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import animesData from '../db/animes';
 import '../style/AnimeList.css';
-import { getData } from '../utils/request';
+import { getData, editData } from '../utils/request';
 
 function AnimeList() {
   const [onEdit, setOnEdit] = useState(null);
@@ -40,8 +40,16 @@ function AnimeList() {
     setOnEdit(animeId);
   };
 
-  const handleSave = () => {
-    setOnEdit(null);
+  const handleSave = async (animeId) => {
+    try {
+      const updatedAnime = animes.find((anime) => anime.id === animeId);
+      await editData('/animes', animeId, updatedAnime);
+      setOnEdit(null);
+      const { data } = await getData('/animes');
+      setAnimeData(data);
+    } catch (error) {
+      console.error('Error saving anime data:', error);
+    }
   };
 
   const handleChange = ({ target }, animeId) => {
@@ -148,7 +156,7 @@ function AnimeList() {
               </td>
               <td>
                 {onEdit === anime.id ? (
-                  <button type="button" onClick={ handleSave }>
+                  <button type="button" onClick={ () => handleSave(anime.id) }>
                     Salvar
                   </button>
                 ) : (
