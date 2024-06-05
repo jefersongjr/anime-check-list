@@ -25,3 +25,12 @@ export const editData = async (apiUrl, id, content) => {
     console.error('Erro ao editar Anime:', error.message);
   }
 };
+
+export const deleteData = async (apiUrl, id) => {
+  try {
+    const response = await api.delete(`${apiUrl}/${id}`);
+    return response;
+  } catch (error) {
+    console.error('Erro ao deletar Anime:', error.message);
+  }
+};
