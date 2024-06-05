@@ -1,0 +1,16 @@
+[
+    {
+      "id": 1,
+      "name": "Naruto",
+      "lastEpisode": 220,
+      "watchedEpisodes": 220,
+      "status": "Concluído"
+    },
+    {
+      "id": 2,
+      "name": "One Piece",
+      "lastEpisode": 1000,
+      "watchedEpisodes": 1000,
+      "status": "Em lançamento"
+    }
+  ]
