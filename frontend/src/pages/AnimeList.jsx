@@ -1,13 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import animesData from '../db/animes';
 import '../style/AnimeList.css';
+import { getData } from '../utils/request';
 
 function AnimeList() {
   const [onEdit, setOnEdit] = useState(null);
   const [animes, setAnimes] = useState(animesData);
   const [selectedAnimes, setSelectedAnimes] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchAnimeData = async () => {
+      try {
+        const responseData = await getData('/animes');
+        setData(responseData);
+      } catch (error) {
+        console.error('Error fetching anime data:', error);
+      }
+    };
+    fetchAnimeData();
+  }, []);
 
   const handleCheckboxClick = (animeId) => {
     setSelectedAnimes((prevSelectedAnimes) => {
@@ -54,6 +68,7 @@ function AnimeList() {
       ))
     ));
     setSelectedAnimes([]);
+    console.log(data);
     closeModal();
   };
 
