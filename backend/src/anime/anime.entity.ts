@@ -4,4 +4,5 @@ export interface Anime {
   lastEpisode: number;
   watchedEpisodes: number;
   status: string;
+  watchedAt?: boolean;
 }
