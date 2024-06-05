@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import Modal from 'react-modal';
 import '../style/AnimeList.css';
 import { getData, editData, deleteData } from '../utils/request';
 import AnimeTable from '../components/AnimeTable';
@@ -108,7 +107,11 @@ function AnimeList() {
     try {
       await Promise.all(
         selectedAnimes.map(async (animeId) => {
-          await editData('/animes', animeId, { ...animes.find((anime) => anime.id === animeId), watchedAt: true });
+          await editData(
+            '/animes',
+            animeId,
+            { ...animes.find((anime) => anime.id === animeId), watchedAt: true },
+          );
         }),
       );
 
