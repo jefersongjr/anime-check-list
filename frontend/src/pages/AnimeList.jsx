@@ -123,6 +123,7 @@ function AnimeList() {
 
   return (
     <section className="main-section">
+      <h1>Minha Lista de Animes</h1>
       <AnimeTable
         selectedAnimes={ selectedAnimes }
         animes={ animes }
