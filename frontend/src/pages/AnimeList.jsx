@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import animesData from '../db/animes';
 import '../style/AnimeList.css';
-import { getData, editData } from '../utils/request';
+import { getData, editData, deleteData } from '../utils/request';
 
 function AnimeList() {
   const [onEdit, setOnEdit] = useState(null);
@@ -59,8 +59,13 @@ function AnimeList() {
         anime.id === animeId ? { ...anime, [name]: value } : anime))));
   };
 
-  const handleDelete = (animeId) => {
-    setAnimes((prevAnimes) => prevAnimes.filter((anime) => anime.id !== animeId));
+  const handleDelete = async (animeId) => {
+    try {
+      await deleteData('/animes', animeId);
+      setAnimes((prevAnimes) => prevAnimes.filter((anime) => anime.id !== animeId));
+    } catch (error) {
+      console.error('Error deleting anime:', error);
+    }
   };
 
   const openModal = () => {
