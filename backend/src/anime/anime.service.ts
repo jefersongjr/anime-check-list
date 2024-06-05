@@ -44,4 +44,10 @@ export class AnimeService {
     await this.writeFile(animes);
     return animes[animeIndex];
   }
+
+  async remove(id: number): Promise<void> {
+    const animes = await this.readFile();
+    const updatedAnimes = animes.filter((anime) => anime.id != id);
+    await this.writeFile(updatedAnimes);
+  }
 }
